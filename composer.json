@@ -1,0 +1,22 @@
+{
+    "name": "tecnica/livre",
+    "description": "Sistema de assistencia tecnica",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "tecnica\\": "src/"
+        },
+        "files": [
+            "configuracao.php"
+        ]   
+    },
+    "authors": [
+        {
+            "name": "Victor-miguel-rodrigues",
+            "email": "vitinhomiguel80@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
