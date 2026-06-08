@@ -1,14 +1,23 @@
 <?php
-session_start();
 
-define("HOST" , "localhost");
-define("Password", "1234");
-define("USER_NAME", "miguel");
-define("BD_NAME", "assistencia_tecnica");
+namespace tecnica\config;
 
+class Configuracao{
+    
 
-$connect = mysqli_connect(HOST,USER_NAME,Password,BD_NAME);
+    public static function conexao(){
+        define("HOST" , "localhost");
+        define("Password", "1234");
+        define("USER_NAME", "miguel");
+        define("BD_NAME", "assistencia_tecnica");
 
-if(mysqli_connect_error()){
-    echo "ERROR";
+        $connect = mysqli_connect(HOST,USER_NAME,Password,BD_NAME);
+
+        if(mysqli_connect_error()){
+            echo "ERROR";
+        }
+
+        return $connect;
+    }
 }
+

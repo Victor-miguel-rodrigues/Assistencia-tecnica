@@ -4,13 +4,47 @@ require "../../vendor/autoload.php";
 
 use tecnica\models\Clientes as clientes;
 use tecnica\service\ClienteService as service;
+use tecnica\config\Configuracao as config;
 
-$clientes = new clientes();
-$servico = new service();
+
+class ClienteController{
+
+
+    public  $clientes;
+    public  $servico;
+
+    public function __construct(){
+        $this->clientes = new clientes();
+        $this->servico = new service();
+    }
+
+    public function getServico(){
+        return $this->servico;
+    }    
+    public  function criar(){
+        return $this->getServico()->cadastrarCLiente($_POST);
+    }
+
+    
+
+}
+
+echo (new ClienteController())->criar();
 
 //$clientes->setNomeCliente($_REQUEST['NomeCliente']);
 
 //echo $clientes->getNomeCliente();
+/*
+function controle_de_dados(){
+    global $servico;
+
+    $nome = $servico ->limparString($_REQUEST['NomeCliente']);
+
+}
+
+
+controle_de_dados();
+/*
 
 
 if(isset($_POST['Enviar']) and !empty($_POST['Enviar'])){
@@ -29,11 +63,46 @@ if(isset($_POST['Enviar']) and !empty($_POST['Enviar'])){
         $clientes->setEndereço($rua,$numero,$bairro);
         $clientes->setTelefon($telefone);
         $clientes->setEmail($email);
+        sleep(0.2);
+        
     }else{
-        header("Location: ../../cadastrar_cliente.php?failed=true");
+        //header("Location: ../../cadastrar_cliente.php?failed=true");
     }
 }
 
-echo $clientes->__tostring();
-echo "<br>". $servico::enviarDados();
-echo "<br><br>";
+$connect = config::conexao();
+
+$nome =   $clientes->getNomeCliente();
+$cpf = $clientes->getCpfcliente();
+$telefone = $clientes->getTelefone();
+$email = $clientes->getEmail();
+
+$sql = "INSERT INTO clientes (nomeCliente,cpf,telefone,email) Values ('$nome','$cpf','$telefone','$email')";
+
+if($resultado = mysqli_query($connect,$sql)){
+    
+}else {
+    echo "falhou";
+}
+
+/*
+function exibir(){
+
+$nome =   $clientes->getNomeCliente();
+$cpf = $clientes->getCpfcliente();
+$telefone = $clientes->getTelefone();
+$email = $clientes->getEmail();
+$endereco  = 1;
+
+$connect = $config::conexao();
+
+var_dump($connect);
+
+$sql = "INSERT INTO clientes (,nomeCliente,cpf,telefone,email) Values ('$nome','$cpf','$telefone','$email')";
+
+if($resultado = mysqli_query($connect,$sql)){
+    
+}else{
+    header("Location: ../../cadastrar_cliente.php?failed=true");
+}
+}*/
