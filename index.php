@@ -1,3 +1,3 @@
 <?php
 
-include_once "cadastrar_cliente.php";
+include_once "login.php";

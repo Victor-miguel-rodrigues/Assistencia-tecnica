@@ -10,12 +10,14 @@ class ClienteService {
     public $bancoDados;
     public $clientes;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->bancoDados = new repository();
         $this->clientes = new cliente();
     }
 
-    public function verificarsenha(string $senha){
+    public function verificarsenha(string $senha)
+    {
         if(mb_strlen($senha) <= 6){
           echo "Senha menor que 6 digito";        
         }else if(mb_strlen($senha) == 0){
@@ -30,7 +32,8 @@ class ClienteService {
      * @param - função para limpeza de string, para proteger de tentativas de sql injection - xss
      *  e outro tipos de tentativas
      */
-    public function limparString(string $string){
+    public function limparString(string $string)
+    {
         
         if(!preg_match("/^[0-9a-z\s@+_\.]+$/i", $string)){
            return "caractere ou codigo invalido inserido dentro da string";
@@ -43,7 +46,8 @@ class ClienteService {
     }
 
 
-    public function validarNumero(string $numero){
+    public function validarNumero(string $numero)
+    {
 
         if(str_contains($numero, "-")){
            return $numero = str_replace("-","",$numero);
@@ -67,11 +71,11 @@ class ClienteService {
 
             $this->clientes->setNomeCliente($this->limparString($post['NomeCliente']));
             $this->clientes->setCpfCliente($this->limparString($post['cpf']));
-            $this->clientes->setEndereço($this->limparString($post['rua']), $this->limparString($post['numero']), $this->limparString($post['bairro']));
+            $this->clientes->setEndereço($this->limparString($post['rua']), $post['numero'], $this->limparString($post['bairro']));
             $this->clientes->setEmail($this->limparString($post['email']));
             $this->clientes->setTelefon( $this->validarNumero($post['telefone']));
 
-            $this->bancoDados->send($this->clientes->getNomeCliente(),$this->clientes->getCpfcliente(),$this->clientes->getEmail(),$this->clientes->getTelefone());       
+            $this->bancoDados->send($this->clientes->getNomeCliente(),$this->clientes->getCpfcliente(),$this->clientes->getEmail(),$this->clientes->getTelefone(),$this->clientes->getEndereco());       
             //echo $this->exibir($nome,$cpf,$rua,$bairro,$numero,$email,$telefone);
         }else
         {
@@ -81,6 +85,13 @@ class ClienteService {
       
     }
 
+    public function buscar($cpf){
+        if(!empty($cpf)){
+            $this->bancoDados->obter($this->limparString($cpf));
+        }else{
+             header("Location: ../../login.php?error=dados");
+        }
+    }
 
     public function exibir($nome,$a,$b,$c,$r,$t,$y)
     {
@@ -88,45 +99,3 @@ class ClienteService {
     }
 
 }
-
-
-
-
-      /*
-        $nome =  $this->limparString($post['NomeCliente']);
-        $cpf =  $this->limparString($post['cpf']);
-        $rua =  $this->limparString($post['rua']);
-        $bairro = $this->limparString($post['bairro']);
-        $numero = $this->limparString($post['numero']);
-        $email = $this->limparString($post['email']);
-        $telefone =  $this->validarNumero($post['telefone']);
-        $nome =  $this->limparString($_POST['']);
-        $cpf =  $this->limparString($_POST['']);
-        $rua =  $this->limparString($_POST['']);
-        $bairro = $this->limparString($_POST['']);
-        $numero = $this->limparString($_POST['']);
-        $email = $this->limparString($_POST['']);
-        $telefone =  $this->limparString($_POST['']);*/
-/*    public function dados($post)
-    {
-        if(isset($_POST['Enviar']) and !empty($_POST['Enviar'])){
-        $nome = filter_var($_POST['NomeCliente'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $rua = filter_var($_POST['rua'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $bairro = filter_var($_POST['bairro'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $numero = filter_var($_POST['numero'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $email = filter_var($_POST['email'],FILTER_VALIDATE_EMAIL);
-        $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-        if(!empty($nome) and !empty($cpf) and !empty($rua) and !empty($bairro) and !empty($numero) and !empty($email) and !empty($telefone)){
-            $clientes->setNomeCliente($nome);
-            $clientes->setCpfCliente($cpf);
-            $clientes->setEndereço($rua,$numero,$bairro);
-            $clientes->setTelefon($telefone);
-            $clientes->setEmail($email);
-        }else{
-            header("Location: ../../cadastrar_cliente.php?failed=true");
-        }
-        }
-
-    }*/

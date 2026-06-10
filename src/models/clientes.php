@@ -35,7 +35,11 @@ class Clientes{
         $this->endereco =  [$rua,$numero,$bairro];
     }
 
-        public function setTelefon(string $telefone){
+    public function getEndereco(){
+        return $this->endereco;
+    }
+
+    public function setTelefon(string $telefone){
         $this->telefone = $telefone;
     }
 

@@ -25,11 +25,23 @@ class ClienteController{
         return $this->getServico()->cadastrarCLiente($_POST);
     }
 
-    
+    public function getDados(){
+        return $this->getServico()->buscar($_REQUEST['CPF']);
+    }    
 
 }
 
-echo (new ClienteController())->criar();
+if(isset($_POST['Enviar']) ){
+    if($_POST['Enviar']){
+        echo (new ClienteController())->criar();
+    }
+}
+
+if(isset($_POST)){
+    if($_POST['logar']){
+        echo (new ClienteController())->getDados();
+    }
+}
 
 //$clientes->setNomeCliente($_REQUEST['NomeCliente']);
 
