@@ -3,7 +3,7 @@
 namespace tecnica\service;
 
 use tecnica\repository\ClienteRepository as repository;
-use tecnica\models\Clientes as cliente;
+use tecnica\models\ClientesModel as cliente;
 
 class ClienteService {
 
@@ -85,11 +85,15 @@ class ClienteService {
       
     }
 
-    public function buscar($cpf){
+    public function buscar(){   
+        return $this->bancoDados->obter();
+    }
+
+    public function alterarDados($cpf, $str = []){
         if(!empty($cpf)){
-            $this->bancoDados->obter($this->limparString($cpf));
+            $this->bancoDados->update($this->limparString($cpf), $str);
         }else{
-             header("Location: ../../login.php?error=dados");
+             header("Location: ../../alterar_dados.php?error=dados");
         }
     }
 

@@ -2,7 +2,7 @@
 
 namespace tecnica\models;
 
-class Clientes{
+class ClientesModel{
 
     
     private string $nomeCliente;

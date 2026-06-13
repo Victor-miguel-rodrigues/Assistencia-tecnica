@@ -4,12 +4,15 @@ namespace tecnica\config;
 
 class Configuracao{
     
+    /* var_dump(__FILE__);
+     debug_print_backtrace();*/
 
     public static function conexao(){
-        define("HOST" , "LC");
-        define("Password", "SW");
-        define("USER_NAME", "UN");
-        define("BD_NAME", "DB_NM");
+
+        define("HOST" , "localhost");
+        define("Password", "1234");
+        define("USER_NAME", "miguel");
+        define("BD_NAME", "assistencia_tecnica");
 
         $connect = mysqli_connect(HOST,USER_NAME,Password,BD_NAME);
 

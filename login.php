@@ -13,10 +13,7 @@
         <input type="submit" name="logar" value="Buscar dados">
     </form>
 
-    <?php
-       if(isset($_GET['error']) and !empty($_GET['error'])){
-           echo "Dados do cpf invalido";
-       }
-    ?>
+
+    
 </body>
 </html>

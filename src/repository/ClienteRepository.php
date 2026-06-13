@@ -7,7 +7,6 @@ class ClienteRepository{
 
     
     public $connection;
-    public $error =[];
 
     public function __construct(){
         $this->connection =  config::conexao();
@@ -34,32 +33,78 @@ class ClienteRepository{
         mysqli_stmt_execute($stmt);
     }
 
-    public function update(){
+    public function update(string $cpf, $str = []){
+        
+        if(!preg_match("/[0-9]+/", $cpf)){
+            header("Location: ../../alterar_dados.php?error=dados");
+        }
 
+        $sql = "select * from clientes where cpf = '$cpf'";
+        if($resultado = mysqli_query($this->connection,$sql)){
+
+             if(mysqli_num_rows($resultado) == 1){
+
+                 $dados = mysqli_fetch_all($resultado,MYSQLI_ASSOC);
+                 $recebidos = $str;
+
+                
+                if(!empty($recebidos['nomeCliente']) and !empty($recebidos['telefone']) and !empty($recebidos['email'])){
+                    foreach($dados as $dado){
+
+                        if($recebidos['nomeCliente'] != $dado['nomeCliente']){
+                        $sql = "update clientes set nomeCliente = '{$recebidos['nomeCliente']}' where id = {$dado['id']} ";
+                        $stmt = mysqli_prepare($this->connection,$sql);
+                        if(mysqli_stmt_execute($stmt)){
+                            echo "Concluido <a href='../view/Clientes.php'> clique aqui para voltar </a>";
+                        }else{
+                            echo "falhou <a href='../view/Clientes.php'> clique aqui para voltar </a>";
+                        }
+
+                        }
+
+                        if($recebidos['telefone']  != $dado['telefone']){
+                            $sql = "update clientes set telefone = '{$recebidos['telefone']}' where id = {$dado['id']}";
+                            $stmt = mysqli_prepare($this->connection,$sql);
+                            mysqli_stmt_execute($stmt);
+
+                        }
+
+                        if($recebidos['email'] != $dado['email']){
+                            $sql = "update clientes set email = '{$recebidos['email']}' where id = {$dado['id']}";
+                            $stmt = mysqli_prepare($this->connection,$sql);
+                            mysqli_stmt_execute($stmt);
+                        }
+
+                    }
+                    // termino do for
+                }
+                // termino do if para verificar se os dados não tão vazios
+                
+            }
+
+                
+        }
     }
+
+
 
     public function delete(){
 
     }
 
-    public function obter($cpf){
-    
-        if(!preg_match("/[0-9]/", $cpf)){
-            header("Location: ../../login.php?error=dados");;
-        }
+    public function obter(){
+        $sql = "Select * from clientes";
 
-        $sql = "Select id,NomeCliente from clientes where cpf = '$cpf'";
-        // interface de consulta 
-        $stmt = mysqli_query($this->connection,$sql);
         // depois de executar a consulta e salvo se foi true ou false
         if($resultado = mysqli_query($this->connection,$sql)){
+
             if(mysqli_num_rows($resultado) > 0 ){
-                $dados = mysqli_fetch_array($resultado,MYSQLI_ASSOC);
-                var_dump($dados);
+                $dados = mysqli_fetch_all($resultado,MYSQLI_ASSOC);
+                return $dados;
             }
-        }else{
-            $this->error[] = "CPF Invalido ou contem caracteres que são diferentes de um numero";
+
         }
+
 
     }
 }
