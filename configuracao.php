@@ -9,10 +9,10 @@ class Configuracao{
 
     public static function conexao(){
 
-        define("HOST" , "localhost");
-        define("Password", "1234");
-        define("USER_NAME", "miguel");
-        define("BD_NAME", "assistencia_tecnica");
+        define("HOST" , "");
+        define("Password", "");
+        define("USER_NAME", "");
+        define("BD_NAME", "");
 
         $connect = mysqli_connect(HOST,USER_NAME,Password,BD_NAME);
 

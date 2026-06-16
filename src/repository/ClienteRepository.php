@@ -50,6 +50,7 @@ class ClienteRepository{
                 
                 if(!empty($recebidos['nomeCliente']) and !empty($recebidos['telefone']) and !empty($recebidos['email'])){
                     foreach($dados as $dado){
+                        print_r($dado);
 
                         if($recebidos['nomeCliente'] != $dado['nomeCliente']){
                         $sql = "update clientes set nomeCliente = '{$recebidos['nomeCliente']}' where id = {$dado['id']} ";
